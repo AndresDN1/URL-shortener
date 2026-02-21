@@ -1,0 +1,50 @@
+@startuml
+left to right direction
+actor "Staff" as staff
+actor "Administrator" as admin
+actor "Visitor" as visitor
+actor "Retention Worker" as clock
+admin --|> staff
+
+rectangle "Quicklinks" {
+
+    package "Links" {
+    usecase "Create Short Link" as create_link
+    usecase "Redirect visitor" as redirect
+    usecase "Write log" as write_log
+    usecase "Remove link" as remove_link
+    usecase "Remove log" as remove_log
+    usecase "Update link" as update_link
+    usecase "Check created links" as check_links
+    usecase "Set custom expiration" as set_expiration
+
+    UC12 ..> UC1 : <<extend>>
+    UC2 ..> UC3 : <<include>>
+    }
+    
+    package "Auth" {
+    usecase "Create account" as create_account
+    usecase "Delete account" as delete_account
+    usecase "Log in" as login
+    usecase "Update account" as update_account
+    }
+}
+
+staff --> create_link
+staff --> remove_link
+staff --> update_link
+staff --> check_links
+staff --> set_expiration
+staff --> login
+staff --> update_account
+
+admin --> remove_log
+admin --> create_account
+admin --> delete_account
+
+visitor --> redirect
+
+clock --> remove_link
+clock --> remove_log
+
+@enduml
