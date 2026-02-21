@@ -5,6 +5,7 @@ the system, using a Domain Driven Development approach.
 
 | Term | Definition | Category |
 | :--- | :--- | :--- |
+|Quicklinks |The name of the system|System/Product|
 |Administrator |Person with privileged permissons in the system|Actor/Entity|
 |Click|The event of a visitor clicking a link| Event|
 |Expiration Time| Time at which a link or log can be removed| Value Object|
