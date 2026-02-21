@@ -1,0 +1,35 @@
+@startuml
+hide circle
+
+entity "Staff" {
+  * id : UUID <<DEFAULT gen_random_uuid()>> <<PK>>
+  --
+  * username : TEXT <<UNIQUE>>
+  * password : TEXT
+  * admin : BOOL <<DEFAULT FALSE>>
+}
+
+note right of Staff : "Passwords should be hashed"
+
+entity "Link" {
+  * id : UUID <<DEFAULT gen_random_uuid()>> <<PK>>
+  --
+  * long_url : TEXT
+  * short_url : TEXT <<UNIQUE>>
+  * created_at : TIMESTAMPTZ <<DEFAULT NOW()>>
+  * expires_at : TIMESTAMPTZ <<DEFAULT NOW() + INTERVAL '1 YEAR'>>
+  * expired BOOL <<DEFAULT FALSE>>
+  * owner : UUID <<FK>> <<ON DELETE SET NULL>>
+}
+
+entity "Log" {
+  * id : BIGINT <<GENERATED ALWAYS AS IDENTITY>> <<PK>>
+  --
+  * link : UUID <<FK>> <<ON DELETE CASCADE>>
+  * clicked_at : TIMESTAMTZ <<DEFAULT NOW()>>
+  * expires_at : TIMESTAMPTZ <<DEFAULT NOW() + INTERVAL '2 YEARS'>>
+}
+
+Staff ||--o{ Link : "Creates"
+Link ||--o{ Log : "Generates"
+@enduml
